@@ -22,5 +22,26 @@ function scrollToReel() {
 }
 
 // Optional: Pull random quotes or increment day
-document.getElementById('day-number').innerText = localStorage.getItem('scratch-day') || 1;
+document.getElementById('day-number').innerText = localStorage.getItem('scratch-day') || 2;
 
+// Scroll to reel section
+function scrollToReel() {
+  document.getElementById('reel').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Day tracking logic
+document.addEventListener("DOMContentLoaded", () => {
+  const STORAGE_KEY = 'scratch-day-info';
+  const today = new Date().toDateString();
+  let stored = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+  if (!stored) {
+    stored = { day: 3, lastDate: today };
+  } else if (stored.lastDate !== today) {
+    stored.day += 1;
+    stored.lastDate = today;
+  }
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+  document.getElementById('day-number').textContent = stored.day;
+});
